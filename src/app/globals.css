@@ -22,6 +22,15 @@
 :root {
   --background: #ffffff;
   --foreground: #1a1a1a;
+  --color-brand-blue: #1a2b4a;
+  --color-brand-blue-light: #2a3f6e;
+  --color-brand-yellow: #f5c842;
+  --color-brand-coral: #e8502a;
+  --color-brand-offwhite: #f9f7f4;
+  --color-brand-text: #1a1a1a;
+  --color-brand-muted: #6b7280;
+  --shadow-card: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
 }
 
 body {
