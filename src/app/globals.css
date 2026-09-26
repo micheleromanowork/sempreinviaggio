@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Brand palette */
+  --color-brand-blue: #1a2b4a;
+  --color-brand-blue-light: #2a3f6e;
+  --color-brand-yellow: #f5c842;
+  --color-brand-coral: #e8502a;
+  --color-brand-offwhite: #f9f7f4;
+  --color-brand-text: #1a1a1a;
+  --color-brand-muted: #6b7280;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prose styles for article content */
+.prose {
+  max-width: 65ch;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-brand-blue);
+  margin: 2rem 0 1rem;
+  line-height: 1.3;
+}
+
+.prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-brand-blue);
+  margin: 1.5rem 0 .75rem;
+}
+
+.prose p {
+  margin: 0 0 1.25rem;
+  color: #2d2d2d;
+}
+
+.prose a {
+  color: var(--color-brand-coral);
+  text-decoration: underline;
+  text-decoration-color: rgba(232,80,42,.3);
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-brand-coral);
+}
+
+.prose ul, .prose ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: .5rem;
+  color: #2d2d2d;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-brand-yellow);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #4a4a4a;
+}
+
+.prose img {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 2rem 0;
+}
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-coral);
+  outline-offset: 2px;
+}
