@@ -10,9 +10,10 @@ interface Props {
   content: string
   onChange: (html: string) => void
   onImageRequest?: () => void
+  onEditorReady?: (insertImage: (url: string) => void) => void
 }
 
-export default function RichTextEditor({ content, onChange, onImageRequest }: Props) {
+export default function RichTextEditor({ content, onChange, onImageRequest, onEditorReady }: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -24,6 +25,11 @@ export default function RichTextEditor({ content, onChange, onImageRequest }: Pr
     ],
     content,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
+    onCreate: ({ editor }) => {
+      onEditorReady?.((url: string) => {
+        editor.chain().focus().setImage({ src: url }).run()
+      })
+    },
     editorProps: {
       attributes: { class: 'prose max-w-none min-h-64 focus:outline-none p-4' },
     },

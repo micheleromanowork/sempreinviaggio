@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import RichTextEditor from './RichTextEditor'
 import SeoChecker from './SeoChecker'
@@ -51,7 +51,7 @@ export default function ArticleEditor({ initial, categories, tags, destinations 
   const [showMedia, setShowMedia] = useState(false)
   const [mediaFor, setMediaFor] = useState<'cover' | 'editor' | 'og'>('cover')
   const [activeTab, setActiveTab] = useState<'content' | 'seo'>('content')
-  const [insertImageInEditor, setInsertImageInEditor] = useState<((url: string) => void) | null>(null)
+  const editorInsertRef = useRef<((url: string) => void) | null>(null)
 
   const set = (k: keyof ArticleData, v: any) => setForm(f => ({ ...f, [k]: v }))
 
@@ -60,16 +60,15 @@ export default function ArticleEditor({ initial, categories, tags, destinations 
     if (!initial?.id) set('slug', makeSlugFromTitle(v))
   }
 
-  const openMedia = (target: 'cover' | 'editor' | 'og', editorInsert?: (url: string) => void) => {
+  const openMedia = (target: 'cover' | 'editor' | 'og') => {
     setMediaFor(target)
-    if (editorInsert) setInsertImageInEditor(() => editorInsert)
     setShowMedia(true)
   }
 
   const handleMediaSelect = (url: string) => {
     if (mediaFor === 'cover') set('coverImage', url)
     else if (mediaFor === 'og') set('ogImage', url)
-    else if (mediaFor === 'editor' && insertImageInEditor) insertImageInEditor(url)
+    else if (mediaFor === 'editor' && editorInsertRef.current) editorInsertRef.current(url)
   }
 
   const handleSave = async (status?: string) => {
@@ -190,9 +189,8 @@ export default function ArticleEditor({ initial, categories, tags, destinations 
               <RichTextEditor
                 content={form.content}
                 onChange={v => set('content', v)}
-                onImageRequest={() => openMedia('editor', (url) => {
-                  // This will be passed to editor via the callback
-                })}
+                onEditorReady={fn => { editorInsertRef.current = fn }}
+                onImageRequest={() => openMedia('editor')}
               />
             )}
 
@@ -258,7 +256,7 @@ export default function ArticleEditor({ initial, categories, tags, destinations 
                       placeholder="URL immagine Open Graph (o usa copertina)"
                       className="flex-1 text-sm border border-gray-200 rounded-lg px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[--color-brand-blue]"
                     />
-                    <button type="button" onClick={() => openMedia('og')} className="text-xs px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors shrink-0">
+                    <button type="button" onClick={() => openMedia('og')} className="text-xs px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors shrink-0" aria-label="Scegli immagine OG">
                       Scegli
                     </button>
                   </div>

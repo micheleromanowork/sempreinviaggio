@@ -13,6 +13,7 @@ const nav = [
   { label: 'Pagine', href: '/admin/pagine', icon: '▭' },
   { label: 'Analytics', href: '/admin/analytics', icon: '▲' },
   { label: 'Impostazioni', href: '/admin/impostazioni', icon: '◎' },
+  { label: 'Account', href: '/admin/account', icon: '◉' },
 ]
 
 export default function AdminSidebar() {

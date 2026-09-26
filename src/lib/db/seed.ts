@@ -30,7 +30,7 @@ async function seed() {
     ['site_name', 'Sempre in Viaggio'],
     ['site_description', 'Il blog di viaggio di Michele Romano — destinazioni, itinerari e consigli di viaggio.'],
     ['site_email', adminEmail],
-    ['ga4_id', ''],
+    ['ga4_id', 'G-8W7JC04QRS'],
     ['default_og_image', ''],
     ['google_verification', ''],
     ['smtp_host', ''],

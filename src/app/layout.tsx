@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import React from 'react'
 import './globals.css'
 
 const inter = Inter({
@@ -28,9 +29,16 @@ export const metadata: Metadata = {
     locale: 'it_IT',
     type: 'website',
   },
+  alternates: {
+    types: {
+      'application/rss+xml': [
+        { url: '/api/feed', title: 'Sempre in Viaggio — RSS Feed' },
+      ],
+    },
+  },
 }
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="it"
