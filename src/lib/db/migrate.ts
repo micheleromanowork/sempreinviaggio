@@ -5,7 +5,8 @@ const client = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,
 })
 
-await client.executeMultiple(`
+async function migrate() {
+  await client.executeMultiple(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL UNIQUE,
@@ -103,5 +104,8 @@ await client.executeMultiple(`
   );
 `)
 
-console.log('Migration completed.')
-client.close()
+  console.log('Migration completed.')
+  client.close()
+}
+
+migrate().catch(console.error)
