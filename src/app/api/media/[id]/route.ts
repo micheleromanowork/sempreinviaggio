@@ -3,8 +3,13 @@ import { requireAuth } from '@/lib/session'
 import { db } from '@/lib/db'
 import { media } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
-import fs from 'fs'
-import path from 'path'
+import { v2 as cloudinary } from 'cloudinary'
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 interface Params { id: string }
 
@@ -24,10 +29,9 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<Param
   const [row] = await db.select().from(media).where(eq(media.id, parseInt(id))).limit(1)
   if (!row) return NextResponse.json({ error: 'Non trovato.' }, { status: 404 })
 
-  // Delete file
+  // Delete from Cloudinary using stored public_id
   try {
-    const fullPath = path.join(process.cwd(), 'public', row.url)
-    if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath)
+    await cloudinary.uploader.destroy(row.path)
   } catch {}
 
   await db.delete(media).where(eq(media.id, parseInt(id)))

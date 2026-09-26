@@ -1,21 +1,11 @@
-import Database from 'better-sqlite3'
-import path from 'path'
-import fs from 'fs'
+import { createClient } from '@libsql/client'
 
-const DB_PATH = process.env.DATABASE_URL || './data/sempreinviaggio.db'
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+})
 
-const dbDir = path.dirname(path.resolve(DB_PATH))
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true })
-}
-
-const sqlite = new Database(path.resolve(DB_PATH))
-
-sqlite.pragma('journal_mode = WAL')
-sqlite.pragma('foreign_keys = ON')
-
-// Create tables
-sqlite.exec(`
+await client.executeMultiple(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL UNIQUE,
@@ -113,5 +103,5 @@ sqlite.exec(`
   );
 `)
 
-console.log('Database migration completed.')
-sqlite.close()
+console.log('Migration completed.')
+client.close()
